@@ -32,8 +32,9 @@ class StartInstance
             $this->command->line('Successfully started the instance');
             $this->command->line('Link: https://'.$data->instance->name.'.'.config('app.domain'));
             $this->command->newLine();
-        } catch (ProcessFailedException) {
-            throw new GitHookException('Unable to start instance');
+        } catch (ProcessFailedException $e) {
+            throw $e;
+            // throw new GitHookException('Unable to start instance');
         }
 
         return $next($data);
