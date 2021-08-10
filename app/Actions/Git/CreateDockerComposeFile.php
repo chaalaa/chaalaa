@@ -21,6 +21,10 @@ class CreateDockerComposeFile
                         'traefik.http.routers.'.$data->project->name.'-'.$data->service->name.'.rule=Host(`'.$data->instance->name.'.'.config('app.domain').'`)',
                         'traefik.http.services.'.$data->project->name.'-'.$data->service->name.'.loadbalancer.server.port='.$data->service->port,
                     ],
+                    'networks' => [
+                        'traefik-chaalaa-network',
+                    ],
+                    'environment' => $data->meta->environmentVariables($data->service->name),
                 ];
 
                 return $carry;

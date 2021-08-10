@@ -38,6 +38,11 @@ class ProjectMeta
         ];
     }
 
+    public function environmentVariables(string $service): array
+    {
+        return $this->data->services[$service]->environment;
+    }
+
     protected function validate(mixed $data): object
     {
         return (new Processor())->process($this->schema(), $data);
@@ -51,6 +56,7 @@ class ProjectMeta
                 Expect::structure([
                     'name' => Expect::string()->required(),
                     'port' => Expect::int()->required(),
+                    'environment' => Expect::arrayOf('string', 'string')->default([]),
                 ])
             )->required(),
             'docker' => Expect::structure([
