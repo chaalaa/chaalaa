@@ -40,7 +40,7 @@ class ProjectMeta
 
     public function environmentVariables(string $service): array
     {
-        return $this->data->services[$service]->environment;
+        return $this->services()->get($service)->environment;
     }
 
     protected function validate(mixed $data): object
