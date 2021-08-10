@@ -11,6 +11,7 @@ class Instance extends Model
 
     protected $fillable = [
         'name',
+        'state',
     ];
 
     public function service()

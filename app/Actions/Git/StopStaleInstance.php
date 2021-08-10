@@ -25,7 +25,7 @@ class StopStaleInstance
         if (is_null($instance) || $instance->state == 'stopped') {
             if ($stopOnly) {
                 $this->command->newLine();
-                $this->command->line('Instance has already been stopped.');
+                $this->command->line('Instance is already stopped.');
 
                 return $data;
             }
