@@ -31,6 +31,12 @@ class CreateDockerComposeFile
             }, []),
         ];
 
+        $yaml['networks'] = [
+            'traefik-chaalaa-network' => [
+                'external' => true
+            ],
+        ];
+
         file_put_contents($data->instance->directory.'/docker-compose.override.yml', Yaml::dump($yaml));
 
         return $next($data);
