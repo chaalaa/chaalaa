@@ -41,7 +41,7 @@ class CreateProjectCommand extends Command
         $project = $user->projects()->create();
 
         $this->info('Successfully created a new project.');
-        $this->info('Add this repository as staging remote: <comment>'.config('app.git.user').'@'.config('app.git.host').':'.$user->username.'/'.$project->name.'.git</comment>');
+        $this->info('Add this repository as staging remote: <comment>'.config('app.git.user').'@'.config('app.git.host').':'.$user->username.'/'.$project->name.'</comment>');
 
         return 0;
     }

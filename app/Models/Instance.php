@@ -9,6 +9,10 @@ class Instance extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function service()
     {
         return $this->belongsTo(Service::class);

@@ -9,6 +9,11 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'port',
+    ];
+
     public function project()
     {
         return $this->belongsTo(Project::class);
