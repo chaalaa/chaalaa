@@ -57,6 +57,28 @@ return [
     'asset_url' => env('ASSET_URL', null),
 
     /*
+     |-------------------------------------------------------------------------
+     | Application root directory
+     |-------------------------------------------------------------------------
+     |
+     | This path is used by the application for managing files within the
+     | operating system's filesystem.
+     |
+     */
+
+    'root' => env('APP_ROOT', '/var/lib/chaalaa'),
+
+    'domain' => env('APP_DOMAIN', 'chaalaa.dev'),
+
+    'git' => [
+
+        'host' => env('APP_GIT_HOST', 'chaalaa.dev'),
+
+        'user' => env('APP_GIT_USER', 'git'),
+
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
