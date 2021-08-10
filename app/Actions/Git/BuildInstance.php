@@ -12,7 +12,7 @@ class BuildInstance
     public function __invoke(Data $data, callable $next)
     {
         try {
-            (new Process(['docker', 'build', '--file', $data->meta->dockerFile(), '--tag', $data->instance->name, '.'], $data->instance->directory))
+            (new Process(['docker', 'build', '--file', $data->meta->dockerFile(), '--tag', $data->instance->name, '.'], $data->instance->directory, timeout: null))
                 ->mustRun();
 
             return $next($data);

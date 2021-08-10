@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\DB;
 
 trait HandlesGitHook
 {
@@ -20,12 +21,14 @@ trait HandlesGitHook
             foreach ($this->readReferencesFromGit() as [$oldRev, $newRev, $ref]) {
                 $pushInfo = new PushInfo($oldRev, $newRev, $ref);
 
-                (new Pipeline(app()))
-                    ->send(tap(new Data(), fn (Data $data) => $data->pushInfo = $pushInfo))
-                    ->through($pipeline)
-                    ->then(function (Data $data) {
-                        // Nothing to do here...
-                    });
+                DB::transaction(function () use ($pushInfo, $pipeline) {
+                    (new Pipeline(app()))
+                        ->send(tap(new Data(), fn (Data $data) => $data->pushInfo = $pushInfo))
+                        ->through($pipeline)
+                        ->then(function (Data $data) {
+                            // Nothing to do here...
+                        });
+                });
             }
 
             return 0;

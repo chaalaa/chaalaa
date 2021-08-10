@@ -23,7 +23,7 @@ class StartInstance
         );
 
         try {
-            (new Process(['docker-compose', ...$files, 'up', '--detach', $data->service->name], $data->instance->directory))
+            (new Process(['docker-compose', ...$files, 'up', '--detach', $data->service->name], $data->instance->directory, timeout: null))
                 ->mustRun();
 
             $this->command->getOutput()->block([

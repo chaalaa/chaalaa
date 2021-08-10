@@ -33,7 +33,7 @@ class StopStaleInstance
         );
 
         try {
-            (new Process(['docker-compose', ...$files, 'down'], $instance->directory))
+            (new Process(['docker-compose', ...$files, 'down'], $instance->directory, timeout: null))
                 ->mustRun();
         } catch (ProcessFailedException) {
             throw new GitHookException('Unable to stop stale instance.');
