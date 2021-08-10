@@ -8,6 +8,7 @@ use App\Exceptions\GitHookException;
 use App\Models\Instance;
 use App\Support\GitHook\Data;
 use App\Support\Words;
+use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -15,6 +16,7 @@ class CreateNewInstance
 {
     public function __construct(
         protected Words $words,
+        protected Command $command,
     ) {}
 
     public function __invoke(Data $data, callable $next)
@@ -25,6 +27,9 @@ class CreateNewInstance
 
             $tempfile = tempnam(sys_get_temp_dir(), 'chaalaa');
             mkdir($instance->directory);
+
+            $this->command->line('Creating archive...');
+            $this->command->newLine();
 
             (new Process(['git', 'archive', '--output', $tempfile, $data->pushInfo->newRev]))
                 ->mustRun();

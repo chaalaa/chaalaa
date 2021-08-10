@@ -23,13 +23,15 @@ class StartInstance
         );
 
         try {
+            $this->command->line('Starting instance...');
+            $this->command->newLine();
+
             (new Process(['docker-compose', ...$files, 'up', '--detach', $data->service->name], $data->instance->directory, timeout: null))
                 ->mustRun();
 
-            $this->command->getOutput()->block([
-                'Successfully started the instance',
-                'Link: https://'.$data->instance->name.'.'.config('app.domain'),
-            ], padding: true);
+            $this->command->line('Successfully started the instance');
+            $this->command->line('Link: https://'.$data->instance->name.'.'.config('app.domain'));
+            $this->command->newLine();
         } catch (ProcessFailedException) {
             throw new GitHookException('Unable to start instance');
         }

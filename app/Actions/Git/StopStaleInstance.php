@@ -25,6 +25,7 @@ class StopStaleInstance
         }
 
         $this->command->line('Stopping stale instance...');
+        $this->command->newLine();
 
         $files = array_reduce(
             $data->meta->dockerComposeFiles(),
