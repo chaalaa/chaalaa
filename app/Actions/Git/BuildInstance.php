@@ -17,8 +17,8 @@ class BuildInstance
     public function __invoke(Data $data, callable $next)
     {
         try {
-            $this->command->line('Building project...');
             $this->command->newLine();
+            $this->command->line('Building project...');
 
             (new Process(['docker', 'build', '--file', $data->meta->dockerFile(), '--tag', $data->instance->name, '.'], $data->instance->directory, timeout: null))
                 ->mustRun();

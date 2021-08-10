@@ -21,6 +21,8 @@ class CreateNewInstance
 
     public function __invoke(Data $data, callable $next)
     {
+
+
         try {
             /** @var Instance $instance */
             $instance = $data->service->instance()->create();
@@ -28,8 +30,8 @@ class CreateNewInstance
             $tempfile = tempnam(sys_get_temp_dir(), 'chaalaa');
             mkdir($instance->directory);
 
-            $this->command->line('Creating archive...');
             $this->command->newLine();
+            $this->command->line('Creating archive...');
 
             (new Process(['git', 'archive', '--output', $tempfile, $data->pushInfo->newRev]))
                 ->mustRun();

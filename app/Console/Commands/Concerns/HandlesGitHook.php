@@ -33,7 +33,8 @@ trait HandlesGitHook
 
             return 0;
         } catch (GitHookException $e) {
-            $this->error($e->getMessage());
+            $this->newLine();
+            $this->line($e->getMessage());
         } catch (Exception $e) {
             $exceptionHandler->renderForConsole($this->output, $e);
         }

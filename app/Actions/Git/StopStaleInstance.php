@@ -17,15 +17,24 @@ class StopStaleInstance
 
     public function __invoke(Data $data, callable $next)
     {
+        $stopOnly = hexdec($data->pushInfo->newRev) === 0;
+
         /** @var Instance $instance */
         $instance = $data->service->instance;
 
         if (is_null($instance) || $instance->state == 'stopped') {
+            if ($stopOnly) {
+                $this->command->newLine();
+                $this->command->line('Instance has already been stopped.');
+
+                return $data;
+            }
+
             return $next($data);
         }
 
-        $this->command->line('Stopping stale instance...');
         $this->command->newLine();
+        $this->command->line($stopOnly ? 'Stopping instance...' : 'Stopping stale instance...');
 
         $files = array_reduce(
             $data->meta->dockerComposeFiles(),
@@ -36,12 +45,15 @@ class StopStaleInstance
         try {
             (new Process(['docker-compose', ...$files, 'down'], $instance->directory, timeout: null))
                 ->mustRun();
+
+            (new Process(['rm', '-rf', $instance->directory]))
+                ->mustRun();
         } catch (ProcessFailedException) {
             throw new GitHookException('Unable to stop stale instance.');
         }
 
         $instance->update(['state' => 'stopped']);
 
-        return $next($data);
+        return $stopOnly ? $data : $next($data);
     }
 }
