@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Actions\Git\AuthenticateUser;
+use App\Actions\Git\BuildInstance;
 use App\Actions\Git\CreateDockerComposeFile;
 use App\Actions\Git\CreateNewInstance;
 use App\Actions\Git\FetchProject;
@@ -47,6 +48,7 @@ class GitPreReceiveCommand extends Command
             FetchOrCreateService::class,
             StopStaleInstance::class,
             CreateNewInstance::class,
+            BuildInstance::class,
             CreateDockerComposeFile::class,
             StartInstance::class,
         ]);
