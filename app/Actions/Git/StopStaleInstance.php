@@ -20,7 +20,7 @@ class StopStaleInstance
         /** @var Instance $instance */
         $instance = $data->service->instance;
 
-        if ($instance?->state == 'stopped') {
+        if (is_null($instance) || $instance->state == 'stopped') {
             return $next($data);
         }
 
