@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class StopStaleInstance
+class StopOrRecreateInstance
 {
     public function __construct(
         protected Command $command,
@@ -25,7 +25,7 @@ class StopStaleInstance
         if (is_null($instance) || $instance->state == 'stopped') {
             if ($stopOnly) {
                 $this->command->newLine();
-                $this->command->line('Instance is already stopped.');
+                $this->command->line('Instance has already been stopped.');
 
                 return $data;
             }
@@ -52,7 +52,7 @@ class StopStaleInstance
             throw new GitHookException('Unable to stop stale instance.');
         }
 
-        $instance->update(['state' => 'stopped']);
+        $instance->update(['state' => $stopOnly ? 'stopped' : 'recreating']);
 
         return $stopOnly ? $data : $next($data);
     }

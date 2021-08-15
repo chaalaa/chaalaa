@@ -5,12 +5,12 @@ namespace App\Console\Commands;
 use App\Actions\Git\AuthenticateUser;
 use App\Actions\Git\BuildInstance;
 use App\Actions\Git\CreateDockerComposeFile;
-use App\Actions\Git\CreateNewInstance;
+use App\Actions\Git\FetchOrCreateInstance;
 use App\Actions\Git\FetchProject;
 use App\Actions\Git\FetchOrCreateService;
 use App\Actions\Git\ReadMetaFromFile;
 use App\Actions\Git\StartInstance;
-use App\Actions\Git\StopStaleInstance;
+use App\Actions\Git\StopOrRecreateInstance;
 use App\Console\Commands\Concerns\HandlesGitHook;
 use App\Console\Commands\Concerns\ReadsStandardInputFromGit;
 use Illuminate\Console\Command;
@@ -46,8 +46,8 @@ class GitPreReceiveCommand extends Command
             FetchProject::class,
             ReadMetaFromFile::class,
             FetchOrCreateService::class,
-            StopStaleInstance::class,
-            CreateNewInstance::class,
+            StopOrRecreateInstance::class,
+            FetchOrCreateInstance::class,
             BuildInstance::class,
             CreateDockerComposeFile::class,
             StartInstance::class,

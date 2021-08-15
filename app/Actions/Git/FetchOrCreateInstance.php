@@ -12,7 +12,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class CreateNewInstance
+class FetchOrCreateInstance
 {
     public function __construct(
         protected Words $words,
@@ -21,12 +21,14 @@ class CreateNewInstance
 
     public function __invoke(Data $data, callable $next)
     {
+        /** @var Instance $instance */
+        $instance = $data->service->instance;
 
+        if (is_null($instance) || $instance->state != 'recreating') {
+            $instance = $data->service->instance()->create();
+        }
 
         try {
-            /** @var Instance $instance */
-            $instance = $data->service->instance()->create();
-
             $tempfile = tempnam(sys_get_temp_dir(), 'chaalaa');
             mkdir($instance->directory);
 
